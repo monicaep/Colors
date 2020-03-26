@@ -20,10 +20,6 @@ class Palette extends Component {
     }
 
     render() {
-        this.props.palette.colors[this.state.level].map(color => {
-            console.log (color)
-        });
-
         return (
             <div className='Palette'>
                 <Navbar 
@@ -33,9 +29,13 @@ class Palette extends Component {
                 />
                 <div className='Palette-colors'>
                     {this.props.palette.colors[this.state.level].map(color => (
-                        <ColorBox background={color[this.state.format]} name={color.name} rgb={color.rgb}/>
+                        <ColorBox key={color.id} background={color[this.state.format]} name={color.name} rgb={color.rgb}/>
                     ))}
                 </div>
+                <footer className='Palette-footer'>
+                    {this.props.palette.paletteName}
+                    <span className="emoji">{this.props.palette.emoji}</span>
+                </footer>
             </div>
         )
     }
