@@ -15,7 +15,7 @@ const styles = {
         }
     },
     colors: {
-        backgroundColor: '#dae1e4',
+        backgroundColor: 'gray',
         height: '100px',
         width: '100%',
         borderRadius: '5px',
@@ -58,7 +58,7 @@ function MiniPalette(props) {
 
     console.log(classes);
     return (
-        <div className={classes.root}>
+        <div className={classes.root} onClick={props.handleClick}>
             <div className={classes.colors}>
                 {miniColorBoxes}
             </div>
