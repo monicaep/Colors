@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
 import { ChromePicker } from 'react-color';
+import DraggableColorBox from './DraggableColorBox';
 
 const drawerWidth = 350;
 
@@ -62,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
+    height: 'calc(100vh - 64px)'
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
@@ -164,11 +166,9 @@ export default function PersistentDrawerLeft() {
         })}
       >
         <div className={classes.drawerHeader} />
-        <ul>
-          {colors.map(color => (
-            <li style={{backgroundColor: color}}>{color}</li>
-          ))}
-        </ul>
+        {colors.map(color => (
+          <DraggableColorBox color={color} />
+        ))}
       </main>
     </div>
   );
