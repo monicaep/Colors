@@ -46,7 +46,7 @@ class ColorBox extends Component {
                     </div>
                     <div className='copy-container'>
                         <div className='box-content'>
-                            <span className={classes.colorName}>{name} {chroma(background).luminance()}</span>
+                            <span className={classes.colorName}>{name}</span>
                         </div>
                         <button className={`copy-button ${classes.button}`}>COPY</button>
                     </div>

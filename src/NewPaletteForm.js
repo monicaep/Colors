@@ -82,15 +82,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [currentColor, setCurrentColor] = React.useState('yellow');
   const [colors, setColors] = React.useState([]);
-  const [newName, setNewName] = React.useState('');
+  const [newColorName, setNewColorName] = React.useState('');
+  const [newPaletteName, setNewPaletteName] = React.useState('');
   
   React.useEffect(() => {
-    ValidatorForm.addValidationRule('isUniqueColorName', (value) => {
+    ValidatorForm.addValidationRule('uniqueColorName', (value) => {
       for (let color of colors) {
         if (value.toLowerCase() === color.name.toLowerCase()) {
           return false;
@@ -99,9 +100,18 @@ export default function PersistentDrawerLeft() {
       return true;
     });
 
-    ValidatorForm.addValidationRule('isUniqueColor', (value) => {
+    ValidatorForm.addValidationRule('uniqueColor', (value) => {
       for (let color of colors) {
         if (currentColor === color.color) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    ValidatorForm.addValidationRule('uniquePaletteName', (value) => {
+      for (let palette of props.palettes) {
+        if(value.toLowerCase() === palette.paletteName.toLowerCase()) {
           return false;
         }
       }
@@ -124,14 +134,29 @@ export default function PersistentDrawerLeft() {
   const addNewColor = () => {
     const newColor = {
       color: currentColor,
-      name: newName
+      name: newColorName
     }
     setColors([...colors, newColor]);
-    setNewName('');
+    setNewColorName('');
   }
 
-  const handleNameChange = (e) => {
-    setNewName(e.target.value);
+  const handleColorNameChange = (e) => {
+    setNewColorName(e.target.value);
+  }
+
+  const handlePaletteSubmit = () => {
+    let newName = newPaletteName;
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, '-'),
+      colors: colors
+    }
+    props.savePalette(newPalette);
+    props.history.push('/');
+  }
+
+  const handlePaletteNameChange = (e) => {
+    setNewPaletteName(e.target.value)
   }
 
   return (
@@ -139,6 +164,7 @@ export default function PersistentDrawerLeft() {
       <CssBaseline />
       <AppBar
         position="fixed"
+        color='default'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
@@ -156,6 +182,23 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
+          <ValidatorForm onSubmit={handlePaletteSubmit}>
+            <TextValidator 
+              lable='Palette Name'
+              value={newPaletteName}
+              name='newPaletteName'
+              onChange={handlePaletteNameChange}
+              validators={['required', 'uniquePaletteName']}
+              errorMessages={['palette name is required', 'palette name must be unique']}
+            />
+            <Button 
+              type='submit'
+              variant='contained' 
+              color='primary'
+            >
+              Save Palette
+            </Button>
+          </ValidatorForm>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -187,9 +230,10 @@ export default function PersistentDrawerLeft() {
               onSubmit={addNewColor}
             >
               <TextValidator
-                value={newName}
-                onChange={handleNameChange}
-                validators={['required', 'isUniqueColorName', 'isUniqueColor']}
+                value={newColorName}
+                name='newColorName'
+                onChange={handleColorNameChange}
+                validators={['required', 'uniqueColorName', 'uniqueColor']}
                 errorMessages={['color name is required', 'color name must be unique', 'color already used']} 
               />
               <Button 
