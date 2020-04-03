@@ -87,7 +87,7 @@ export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [currentColor, setCurrentColor] = React.useState('yellow');
-  const [colors, setColors] = React.useState([]);
+  const [colors, setColors] = React.useState(props.palettes[0].colors);
   const [newColorName, setNewColorName] = React.useState('');
   const [newPaletteName, setNewPaletteName] = React.useState('');
   
@@ -161,12 +161,24 @@ export default function PersistentDrawerLeft(props) {
   }
 
   const handlePaletteNameChange = (e) => {
-    setNewPaletteName(e.target.value)
+    setNewPaletteName(e.target.value);
   }
 
   const onSortEnd = ({oldIndex, newIndex}) => {
-    setColors(arrayMove(colors, oldIndex, newIndex))
+    setColors(arrayMove(colors, oldIndex, newIndex));
   }
+
+  const clearPalette = () => {
+    setColors([]);
+  }
+
+  const randomColor = () => {
+    const allColors = props.palettes.map(p => p.colors).flat();
+    let randomColor = allColors[Math.floor(Math.random() * allColors.length)];
+    setColors([...colors, randomColor]);
+  }
+
+  const paletteIsFull = (colors.length >= 20);
 
   return (
     <div className={classes.root}>
@@ -228,8 +240,21 @@ export default function PersistentDrawerLeft(props) {
         <div className={classes.drawerContent}>
             <Typography variant='h4'>Design Your Palette</Typography>
             <div>
-                <Button variant='contained' color='primary'>Random Color</Button>
-                <Button variant='contained' color='secondary'>Clear Palette</Button>
+                <Button 
+                  variant='contained' 
+                  color={paletteIsFull ? 'gray' : 'primary'}
+                  onClick={randomColor}
+                  disabled={paletteIsFull}
+                >
+                  {paletteIsFull ? 'Palette Full' : 'Random Color'}
+                </Button>
+                <Button 
+                  variant='contained' 
+                  color='secondary' 
+                  onClick={clearPalette}
+                >
+                  Clear Palette
+                </Button>
             </div>
             <ChromePicker 
               color={currentColor}
@@ -250,8 +275,9 @@ export default function PersistentDrawerLeft(props) {
                 variant='contained' 
                 color='primary'
                 style={{backgroundColor: currentColor}}
+                disabled = {paletteIsFull}
               >
-                Add Color
+                {paletteIsFull ? 'Palette Full' : 'Add Color'}
               </Button>
             </ValidatorForm>
         </div>
@@ -272,4 +298,3 @@ export default function PersistentDrawerLeft(props) {
     </div>
   );
 }
-
