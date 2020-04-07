@@ -9,11 +9,10 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
-import { ChromePicker } from 'react-color';
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import { arrayMove } from 'react-sortable-hoc';
 import DraggableColorList from './DraggableColorList';
 import PaletteFormNav from './PaletteFormNav';
+import ColorPickerForm from './ColorPickerForm';
 
 const drawerWidth = 350;
 
@@ -79,29 +78,7 @@ const useStyles = makeStyles((theme) => ({
 export default function PersistentDrawerLeft(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
-  const [currentColor, setCurrentColor] = React.useState('yellow');
   const [colors, setColors] = React.useState(props.palettes[0].colors);
-  const [newColorName, setNewColorName] = React.useState('');
-  
-  React.useEffect(() => {
-    ValidatorForm.addValidationRule('uniqueColorName', (value) => {
-      for (let color of colors) {
-        if (value.toLowerCase() === color.name.toLowerCase()) {
-          return false;
-        }
-      }
-      return true;
-    });
-
-    ValidatorForm.addValidationRule('uniqueColor', (value) => {
-      for (let color of colors) {
-        if (currentColor === color.color) {
-          return false;
-        }
-      }
-      return true;
-    });
-  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,21 +88,8 @@ export default function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
-  const handleColorChange = (e) => {
-    setCurrentColor(e.hex);
-  }
-
-  const addNewColor = () => {
-    const newColor = {
-      color: currentColor,
-      name: newColorName
-    }
+  const addNewColor = (newColor) => {
     setColors([...colors, newColor]);
-    setNewColorName('');
-  }
-
-  const handleColorNameChange = (e) => {
-    setNewColorName(e.target.value);
   }
 
   const handleColorDelete = (colorName) => {
@@ -201,30 +165,11 @@ export default function PersistentDrawerLeft(props) {
                   Clear Palette
                 </Button>
             </div>
-            <ChromePicker 
-              color={currentColor}
-              onChangeComplete={handleColorChange}
+            <ColorPickerForm
+              colors={colors}
+              paletteIsFull={paletteIsFull}
+              addNewColor={addNewColor}
             />
-            <ValidatorForm
-              onSubmit={addNewColor}
-            >
-              <TextValidator
-                value={newColorName}
-                name='newColorName'
-                onChange={handleColorNameChange}
-                validators={['required', 'uniqueColorName', 'uniqueColor']}
-                errorMessages={['color name is required', 'color name must be unique', 'color already used']} 
-              />
-              <Button 
-                type='submit'
-                variant='contained' 
-                color='primary'
-                style={{backgroundColor: currentColor}}
-                disabled = {paletteIsFull}
-              >
-                {paletteIsFull ? 'Palette Full' : 'Add Color'}
-              </Button>
-            </ValidatorForm>
         </div>
       </Drawer>
       <main
