@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    display: 'flex',
+    alignItems: 'center'
   },
   drawerHeader: {
     display: 'flex',
@@ -54,9 +56,16 @@ const useStyles = makeStyles((theme) => ({
   drawerContent: {
       display: 'flex',
       height: '100%',
+      width: '90%',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center'
+  },
+  drawerBtns: {
+    width: '100%'
+  },
+  button: {
+    width: '50%'
   }
 }));
 
@@ -124,9 +133,10 @@ export default function PersistentDrawerLeft(props) {
         </div>
         <Divider />
         <div className={classes.drawerContent}>
-            <Typography variant='h4'>Design Your Palette</Typography>
-            <div>
+            <Typography variant='h4' gutterBottom>Design Your Palette</Typography>
+            <div className={classes.drawerBtns}>
                 <Button 
+                  className={classes.button}
                   variant='contained' 
                   color={paletteIsFull ? 'gray' : 'primary'}
                   onClick={randomColor}
@@ -135,6 +145,7 @@ export default function PersistentDrawerLeft(props) {
                   {paletteIsFull ? 'Palette Full' : 'Random Color'}
                 </Button>
                 <Button 
+                  className={classes.button}
                   variant='contained' 
                   color='secondary' 
                   onClick={clearPalette}
