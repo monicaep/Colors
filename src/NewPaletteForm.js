@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -19,20 +18,6 @@ const drawerWidth = 350;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  appBar: {
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
   drawer: {
     width: drawerWidth,
@@ -115,13 +100,6 @@ export default function PersistentDrawerLeft(props) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        color='default'
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
       <PaletteFormNav 
         palettes={props.palettes}
         handleDrawerOpen={handleDrawerOpen}
@@ -130,7 +108,6 @@ export default function PersistentDrawerLeft(props) {
         savePalette={props.savePalette}
         history={props.history}
       />
-      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
