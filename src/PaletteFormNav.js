@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
-import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import PaletteNamerForm from './PaletteNamerForm';
 
 const drawerWidth = 350;
 
@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
         }),
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         height: '64px'
     },
     appBarShift: {
@@ -40,41 +41,25 @@ const useStyles = makeStyles((theme) => ({
         display: 'none'
     },
     navBtns: {
-            
+        marginRight: '1rem'
     },
-    backBtn: {
-        textDecoration: 'none'    }
+    button: {
+        textDecoration: 'none',
+        margin: "0 0.5rem"
+    }
 }));
 
 export default function PaletteFormNav(props) {
     const classes = useStyles();
-    const [newPaletteName, setNewPaletteName] = React.useState('');
+    const [formShowing, setFormShowing] = React.useState(false);
 
-    React.useEffect(() => {
-        ValidatorForm.addValidationRule('uniquePaletteName', (value) => {
-            for (let palette of props.palettes) {
-              if(value.toLowerCase() === palette.paletteName.toLowerCase()) {
-                return false;
-              }
-            }
-            return true;
-        });
-    });
-
-    const handlePaletteSubmit = () => {
-        let newName = newPaletteName;
-        const newPalette = {
-            paletteName: newName,
-            id: newName.toLowerCase().replace(/ /g, '-'),
-            colors: props.colors
-        }
-        props.savePalette(newPalette);
-        props.history.push('/');
-        console.log('submitting');
+    const showForm = () => {
+        setFormShowing(true);
+        console.log(formShowing);
     }
-    
-    const handlePaletteNameChange = (e) => {
-        setNewPaletteName(e.target.value);
+
+    const hideForm = () => {
+        setFormShowing(false);
     }
 
     return (
@@ -101,28 +86,24 @@ export default function PaletteFormNav(props) {
                     </Typography>
                 </Toolbar>
                 <div className={classes.navBtns}>
-                    <ValidatorForm onSubmit={handlePaletteSubmit}>
-                        <TextValidator 
-                            lable='Palette Name'
-                            value={newPaletteName}
-                            name='newPaletteName'
-                            onChange={handlePaletteNameChange}
-                            validators={['required', 'uniquePaletteName']}
-                            errorMessages={['palette name is required', 'palette name must be unique']}
-                        />
-                        <Button 
-                            type='submit'
-                            variant='contained' 
-                            color='primary'
-                        >
-                            Save Palette
-                        </Button>
-                    </ValidatorForm>
-                    <Link className={classes.backBtn} to='/'>
+                    <Link className={classes.button} to='/'>
                         <Button variant='contained' color='secondary'>Go Back</Button>
                     </Link>
+                    <Button className={classes.button} variant="contained" color="primary" onClick={showForm}>
+                        Save
+                    </Button>
                 </div>
             </AppBar>
+            {formShowing && 
+                <PaletteNamerForm 
+                    palettes={props.palettes}
+                    colors={props.colors}
+                    savePalette={props.savePalette}
+                    history={props.history}
+                    open={formShowing}
+                    hideForm={hideForm}
+                />
+            }
         </div>
     )
 }
