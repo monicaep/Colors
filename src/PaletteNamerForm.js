@@ -10,6 +10,7 @@ import 'emoji-mart/css/emoji-mart.css'
 
 export default function PaletteNamerForm(props) {
   const [newPaletteName, setNewPaletteName] = React.useState('');
+  const [stage, setStage] = React.useState('form');
 
   React.useEffect(() => {
     ValidatorForm.addValidationRule('uniquePaletteName', (value) => {
@@ -22,11 +23,12 @@ export default function PaletteNamerForm(props) {
     });
   });
 
-  const handlePaletteSubmit = () => {
+  const handlePaletteSubmit = (emoji) => {
     let newName = newPaletteName;
     const newPalette = {
         paletteName: newName,
         id: newName.toLowerCase().replace(/ /g, '-'),
+        emoji: emoji.native,
         colors: props.colors
     }
     props.savePalette(newPalette);
@@ -37,13 +39,20 @@ export default function PaletteNamerForm(props) {
     setNewPaletteName(e.target.value);
   }
 
+  const showEmojiPicker = () => {
+    setStage('emoji');
+  }
+
   return (
     <div>
-      <Dialog open={props.open} onClose={props.hideForm} aria-labelledby="form-dialog-title">
+      <Dialog open={stage === 'emoji'}>
+        <DialogTitle id="form-dialog-title">Pick a Palette Emoji</DialogTitle>
+        <Picker onSelect={handlePaletteSubmit} title='Pick a Palette Emoji'/>
+      </Dialog>
+      <Dialog open={stage === 'form'} onClose={props.hideForm} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Choose a Palette Name</DialogTitle>
-        <ValidatorForm onSubmit={handlePaletteSubmit}>
+        <ValidatorForm onSubmit={showEmojiPicker}>
           <DialogContent>
-              <Picker set='apple' />
               <TextValidator 
                 lable='Palette Name'
                 value={newPaletteName}
@@ -63,7 +72,7 @@ export default function PaletteNamerForm(props) {
               variant='contained' 
               color='primary'
             >
-              Save Palette
+              Save
             </Button>
           </DialogActions>
         </ValidatorForm>
