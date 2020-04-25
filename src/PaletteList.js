@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/styles';
 import MiniPalette from './MiniPalette';
-import background from './styles/background.svg'
+import background from './styles/background.svg';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const styles ={
     root: {
@@ -42,6 +43,15 @@ const styles ={
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 30%)',
         gridGap: '5%'
+    },
+    "@global": {
+        '.fade-exit': {
+            opacity: 1
+        },
+        '.fade-exit-active': {
+            opacity: 0,
+            transition: 'opacity 500ms ease-out'
+        }
     }
 }
 
@@ -60,16 +70,19 @@ class PaletteList extends Component {
                             <h1 className={classes.header}>React Colors</h1>
                             <Link to='/palette/new'>Create Palette</Link>
                         </nav>
-                        <div className={classes.palettes}>
+                        <TransitionGroup className={classes.palettes}>
                             {palettes.map(palette => (
-                                <MiniPalette
-                                {...palette} 
-                                key={palette.id}
-                                handleClick={() => this.goToPalette(palette.id)}
-                                handleDeletePalette={deletePalette} 
-                                id={palette.id} />
+                                <CSSTransition key={palette.id} classNames='fade' timeout={500}>
+                                    <MiniPalette
+                                        {...palette} 
+                                        key={palette.id}
+                                        handleClick={() => this.goToPalette(palette.id)}
+                                        handleDeletePalette={deletePalette} 
+                                        id={palette.id} 
+                                    />
+                                </CSSTransition>
                             ))}
-                        </div>
+                        </TransitionGroup>
                     </div>                    
                 </div>
             </div>
