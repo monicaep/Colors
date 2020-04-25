@@ -34,6 +34,7 @@ const styles = {
         transition: 'all 0.3s ease-in-out'
     }
 }
+
 const DraggableColorBox = SortableElement(props => {
     const { classes, handleDelete, color, name } = props;
     return (
