@@ -32,6 +32,7 @@ export default function PaletteNamerForm(props) {
         colors: props.colors
     }
     props.savePalette(newPalette);
+    setStage('');
     props.history.push('/');
   }
 
