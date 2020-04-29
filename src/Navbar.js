@@ -41,7 +41,7 @@ const styles = {
             height: '8px'
         }
     },
-    sliderContainer: {
+    selectContainer: {
         marginLeft: 'auto',
         marginRight: '1rem'
     }
@@ -73,7 +73,7 @@ class Navbar extends Component {
                     <Link to='/'>reactcolorpicker</Link>
                 </div>
                 {this.props.showingAllColors && (
-                    <div className={classes.sliderContainer}>
+                    <div className={classes.selectContainer}>
                         <span>Level: {this.props.level}</span>
                         <div className={classes.slider}>
                             <Slider 
@@ -87,7 +87,7 @@ class Navbar extends Component {
                     </div>
                 )}
                 
-                <div className='select-container'>
+                <div className={classes.selectContainer}>
                     <Select value={this.state.format} onChange={this.handleFormatChange}>
                         <MenuItem value='hex'>HEX - #ffffff</MenuItem>
                         <MenuItem value='rgb'>RGB - rgb(255, 255, 255)</MenuItem>
