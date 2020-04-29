@@ -1,66 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-const styles = {
-    root: {
-        backgroundColor: 'white',
-        border: '1px solid black',
-        borderRadius: '5px',
-        padding: '0.5rem',
-        position: 'relative',
-        overflow: 'hidden',
-        cursor: 'pointer',
-        '&:hover svg': {
-            opacity: '1'
-        }
-    },
-    colors: {
-        backgroundColor: 'gray',
-        height: '100px',
-        width: '100%',
-        borderRadius: '5px',
-        overflow: 'hidden'
-    },
-    title: {
-        display: 'flex',
-        justifyContent: 'spae-between',
-        alignItems: 'center',
-        margin: '0',
-        color: 'black',
-        paddingTop: '0.5rem',
-        fontSize: '1rem',
-        position: 'relative'
-    },
-    emoji: {
-        marginLeft: '0.5rem',
-        fontSize: '1.5rem'
-    },
-    miniColor: {
-        height: '25%',
-        width: '20%',
-        display: 'inline-block',
-        margin: '0 auto',
-        position: 'relative',
-        marginBottom: '-3.5px'
-    },
-    delete: {
-
-    },
-    deleteIcon: {
-        color: 'white',
-        backgroundColor: '#eb3d30',
-        width: '15px',
-        height: '15px',
-        position: 'absolute',
-        right: '0px',
-        top: '0px',
-        padding: '10px',
-        zIndex: '10',
-        opacity: '0',
-        borderRadius: '4px'
-    }
-}
+import styles from './styles/MiniPaletteStyles';
 
 class MiniPalette extends PureComponent {
     constructor(props) {

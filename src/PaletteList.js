@@ -13,58 +13,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
 import MiniPalette from './MiniPalette';
-import background from './styles/background.svg';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
-const styles ={
-    root: {
-        backgroundColor: 'indigo',
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-        backgroundColor: '#321daa',
-        backgroundImage: `url(${background})`,
-         // background by SVGBackgrounds.com 
-        overflow: 'scroll'
-
-    },
-    container: {
-        display: 'flex',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-        flexWrap: 'wrap'
-    },
-    nav: {
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        color: 'white',
-        "& a": {
-            color: 'white'
-        }
-    },
-    header: {
-        fontSize: '1.8rem'
-    },
-    palettes: {
-        boxSizing: 'border-box',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 30%)',
-        gridGap: '5%'
-    },
-    "@global": {
-        '.fade-exit': {
-            opacity: 1
-        },
-        '.fade-exit-active': {
-            opacity: 0,
-            transition: 'opacity 500ms ease-out'
-        }
-    }
-}
+import styles from './styles/PaletteListStyles';
 
 class PaletteList extends Component {
     constructor(props) {
