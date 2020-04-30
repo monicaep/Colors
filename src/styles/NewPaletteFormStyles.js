@@ -1,6 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { DRAWER_WIDTH } from '../constants';
+import sizes from './sizes';
 
-const drawerWidth = 350;
+const drawerWidth = DRAWER_WIDTH;
 
 export default makeStyles((theme) => ({
   root: {
@@ -32,7 +34,10 @@ export default makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: -drawerWidth,
-    height: 'calc(100vh - 64px)'
+    height: 'calc(100vh - 64px)',
+    [sizes.down('xs')]: {
+      height: 'calc(100vh - 85px)'
+    }
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
