@@ -16,7 +16,6 @@ export default function PaletteFormNav(props) {
 
     const showForm = () => {
         setFormShowing(true);
-        console.log(formShowing);
     }
 
     const hideForm = () => {

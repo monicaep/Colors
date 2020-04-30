@@ -40,6 +40,6 @@ export default {
     },
     selectContainer: {
         marginLeft: 'auto',
-        marginRight: '1rem'
+        marginRight: '1rem'    
     }
 }
