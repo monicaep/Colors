@@ -45,12 +45,17 @@ export default function PersistentDrawerLeft(props) {
 
   const randomColor = () => {
     const allColors = props.palettes.map(p => p.colors).flat();
-    let randomColor = allColors[Math.floor(Math.random() * allColors.length)];
+    let randomColor;
+    let isDuplicateColor = true;
+    while(isDuplicateColor) {
+      randomColor = allColors[Math.floor(Math.random() * allColors.length)];
+      isDuplicateColor = colors.some(color => color.name === randomColor.name);
+      console.log(randomColor)
+    }
     setColors([...colors, randomColor]);
   }
 
   const paletteIsFull = (colors.length >= 20);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
